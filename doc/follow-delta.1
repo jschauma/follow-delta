@@ -1,0 +1,100 @@
+.Dd March 14, 2011
+.Dt FOLLOW-DELTA 1
+.Os
+.Sh NAME
+.Nm follow-delta
+.Nd list changes in twitter following
+.Sh SYNOPSIS
+.Nm
+.Op Fl hv
+.Op Fl d Ar up|down
+.Fl u Ar user
+.Sh DESCRIPTION
+.Nm
+will generate a list of changes in twitter following compared to the last
+time it was invoked.
+The changes are printed to STDOUT.
+.Sh OPTIONS
+The following options are supported by
+.Nm :
+.Bl -tag -width d_up_down_
+.It Fl h
+Print a short usage statement and exit.
+.It Fl d Ar up|down
+The direction in which to go.
+.Ar up
+indicates that we are looking at the changes of all people the given
+account is following;
+.Ar down
+indicates that we are looking at the changes of all people following the
+given account.
+If not specified,
+.Nm
+will go both 'up' and 'down'.
+.It Fl u Ar user
+Operate on the given user account.
+.It Fl v
+Increase verbosity.
+.El
+.Sh DETAILS
+.Nm
+retrieves the list of people followed by the given users as well as the
+list of users the given use is following him or herself (this set of
+changes is henceforth referred to as the 'followship').
+If
+.Nm
+has never queried the given user before, it will silently write the
+followship to a file under ~/.twitter/followship/<user>; the next time it
+is invoked, it will generate the desired delta and print it to STDOUT.
+.Sh EXAMPLES
+The following examples illustrate common usage of this tool.
+.Pp
+To review the full delta of the user 'HowardStern':
+.Bd -literal -offset indent
+follow-delta -u HowardStern
+.Ed
+.Pp
+To see who the user 'biz' is now following compared to the last time you
+ran
+.Nm :
+.Bd -literal -offset indent
+follow-delta -d up -u biz
+.Ed
+.Pp
+To see the list of new followers of the user 'ev':
+.Bd -literal -offset indent
+follow-delta -d down -u ev
+.Ed
+.Sh EXIT STATUS
+.Ex -std
+.Sh HISTORY
+.Nm
+was originally written by
+.An Jan Schaumann
+.Aq jschauma@netmeister.org
+in March 2011.
+.Sh BUGS
+.Nm
+does (intentionally) not use any sort of authorization.
+That makes it impossible for
+.Nm
+to determine followship deltas for 'private' accounts.
+.Pp
+Nm
+is really only useful for accounts that are not too popular:
+Due to API rate throttling,
+.Nm
+can only get at most 7500 followers and 7500 friends (150 API queries per
+hour, 100 users returned per call).
+Practically, it attempts to only get 7000 of each to leave some slack for
+other API calls.
+This is slow and does also mean that none of the examples in the
+.Xr EXAMPLES
+section are actually going to work.
+For accounts that follow or are followed by fewer than a few thousand
+users, though, this should work, even though this of course also means
+that you can't run
+.Nm
+for multiple popular users in the same hour. :-/
+.Pp
+Please report bugs and feature requests to the author.

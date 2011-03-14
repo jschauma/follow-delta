@@ -1,0 +1,11 @@
+Requirements:
+	- python (presumably > 2.5)
+	- py-tweepy (http://code.google.com/p/tweepy/)
+
+Installation:
+	- install -c -m 755 src/follow-delta.py /somewhere/in/your/path/follow-delta
+	- install -c -m 444 doc/follow-delta.1 /somewhere/in/your/manpath/man1/follow-delta.1
+
+Questions/comments:
+	jschauma@netmeister.org
+	http://www.netmeister.org/apps/twitter/follow-delta/
